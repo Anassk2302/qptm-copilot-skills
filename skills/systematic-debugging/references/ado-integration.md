@@ -177,21 +177,14 @@ Search by:
 
 ---
 
-## Phase 4: Documentation
+## Read-Only Policy
 
-### Document Root Cause in Work Item
+> **This skill is READ-ONLY.** It does NOT use any ADO write operations (`add_work_item_comment`, `create_work_item`, `update_work_item`, etc.). All findings are presented to the user for manual action.
 
-```
-Tool: mcp_ado_wit_add_work_item_comment
-Params:
-  workItemId: [work item number]
-  text: "[investigation summary - see template below]"
-```
-
-#### Comment Template
+When investigation is complete, the skill outputs a structured summary that the user can copy into the ADO work item manually:
 
 ```markdown
-## Root Cause Investigation
+## Root Cause Investigation Summary
 
 **Root Cause**: [One-sentence summary of what was wrong]
 
@@ -204,12 +197,12 @@ Params:
 - [What data/trace confirmed this root cause]
 - [Working vs broken comparison that proved it]
 
-**Fix**:
-- [What was changed]
-- [Files modified]
+**Recommended Fix**:
+- [What should be changed]
+- [Files to modify]
 
-**Verification**:
-- [Test(s) added/modified]
+**Recommended Tests**:
+- [Test(s) to add/modify]
 - [Manual verification steps]
 
 **Related WIs**: [Any linked WIs found during investigation]

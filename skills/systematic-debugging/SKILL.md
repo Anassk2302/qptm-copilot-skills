@@ -6,6 +6,7 @@ description: >
   validation failures, or any root cause analysis. Integrates Azure DevOps work item search and
   Quorum Metadata MCP for grid/screen/batch process resolution. Follows a strict 4-phase process:
   Evidence Collection → Pattern Analysis → Hypothesis Testing → Implementation.
+  This skill is READ-ONLY — it never modifies ADO work items, databases, or external systems.
   Keywords: debug, investigate, root cause, error, bug, issue, fix, troubleshoot, diagnose, trace,
   wrong data, incorrect, missing, failed, broken, not working.
 ---
@@ -29,7 +30,7 @@ If you've made 3 failed fix attempts, STOP — you don't understand the problem 
 | User describes a symptom (wrong data, error, etc.) | Phase 1 directly |
 | You've already investigated and need to compare patterns | Phase 2 |
 | You have a theory and need to verify | Phase 3 |
-| Root cause confirmed, need to implement fix | Phase 4 |
+| Root cause confirmed, need to document findings | Phase 4 |
 
 ---
 
@@ -257,43 +258,41 @@ RESULT: [What happened when you tested]
 
 ---
 
-## Phase 4: Implementation & Documentation
+## Phase 4: Findings & Recommendations
 
-**Goal**: Fix the root cause and document everything.
+**Goal**: Summarize root cause and recommend a fix. This skill is READ-ONLY — it does not modify any external systems.
 
-### Step 4.1: Implement the Fix
+### Step 4.1: Summarize Root Cause
 
-- Fix the ROOT CAUSE, not the symptom
-- Follow existing code patterns (see [./references/quorum-architecture-layers.md](./references/quorum-architecture-layers.md))
-- Never modify `CodeGen/` folders — use `*DOExt.cs` extension pattern
-- New `.cs` files MUST be added to `.csproj` manually (MSBuild doesn't auto-discover)
-- Build with MSBuild, not `dotnet build`
-
-### Step 4.2: Verify the Fix
-
-1. Run the failing test → now passes
-2. Run existing tests → no regressions
-3. Verify the original symptom is resolved
-4. Check edge cases identified during investigation
-
-### Step 4.3: Document Root Cause
+Present findings to the user in a structured format:
 
 ```
-→ mcp_ado_wit_add_work_item_comment
-  Use: Add investigation findings and root cause to the WI
-  Include:
-  - Root cause (one sentence)
-  - What was wrong (specific code/config/data)
-  - What was changed (files modified)
-  - How it was verified (tests, manual verification)
+## Root Cause Investigation Summary
+
+**Root Cause**: [One-sentence summary]
+**Layer**: [Controller / Service / DataAccess / Database / Batch / Configuration]
+**File(s)**: [Specific files where the issue was found]
+**Evidence**: [Data/trace that confirmed this root cause]
+**Recommended Fix**: [What should be changed and where]
+**Recommended Tests**: [What tests should be written to verify]
 ```
 
-### Step 4.4: Update Troubleshooting Docs
+### Step 4.2: Recommend Implementation Steps
 
-If this is a new pattern not already in the troubleshooting docs:
-- Add to `.prompts/troubleshooting/[feature].md` under "Historical Work Items"
+- Identify the ROOT CAUSE, not the symptom
+- Point to existing code patterns (see [./references/quorum-architecture-layers.md](./references/quorum-architecture-layers.md))
+- Remind: Never modify `CodeGen/` folders — use `*DOExt.cs` extension pattern
+- Remind: New `.cs` files MUST be added to `.csproj` manually
+- Remind: Build with MSBuild, not `dotnet build`
+
+### Step 4.3: Suggest Documentation Updates
+
+Recommend (but do not perform) these documentation actions:
+- Add root cause to the ADO work item as a comment
+- If this is a new pattern, add to `.prompts/troubleshooting/[feature].md` under "Historical Work Items"
 - Include: WI number, symptom, root cause, resolution
-- This helps future investigations find this pattern in Phase 2
+
+> **Note**: This skill does NOT write to ADO, modify work items, or update external systems. All write actions are left to the user.
 
 ---
 
@@ -329,7 +328,7 @@ If this is a new pattern not already in the troubleshooting docs:
 - Resolve grid/screen metadata before debugging UI issues
 - Use the Metadata MCP to understand what's behind a screen
 - Create a failing test before implementing a fix
-- Document root cause in the WI
+- Summarize root cause findings for the user to document in the WI
 
 ---
 
@@ -346,7 +345,6 @@ If this is a new pattern not already in the troubleshooting docs:
 | `mcp_ado_wit_get_work_items_batch_by_ids` | Batch-fetch linked WIs |
 | `mcp_ado_search_code` | Search code across ADO repos |
 | `mcp_ado_repo_search_commits` | Find past fix commits |
-| `mcp_ado_wit_add_work_item_comment` | Document root cause |
 
 ### Quorum Metadata MCP (`mcp_quorum-metada_*`)
 

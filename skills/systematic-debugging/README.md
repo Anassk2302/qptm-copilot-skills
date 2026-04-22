@@ -80,12 +80,12 @@ Every investigation follows the same disciplined flow. No shortcuts, no guessing
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │   Phase 4: IMPLEMENTATION & DOCUMENTATION                   │
-│   "Fix the root cause, not the symptom. Then document it."  │
+│   "Identify the root cause, not the symptom. Present it."   │
 │                                                             │
-│   • Implements the fix following Quorum code patterns       │
-│   • Verifies with tests (no regressions)                   │
-│   • Documents root cause directly in the ADO work item     │
-│   • Updates troubleshooting docs for future investigators   │
+│   • Summarizes root cause with structured evidence          │
+│   • Recommends fix with specific files and patterns         │
+│   • Suggests tests to verify the fix                        │
+│   • Outputs findings for user to document in ADO            │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -105,7 +105,7 @@ The skill connects directly to your Azure DevOps instance. No copy-pasting, no t
 | **Searches past WIs** | Finds similar resolved bugs — "this was fixed 6 months ago in WI #41200" |
 | **Searches code across repos** | Looks in Batch, ClassicGUI, and other repos you don't have open locally |
 | **Finds past fix commits** | Shows exactly what code change fixed a similar issue before |
-| **Documents findings** | Writes structured root cause analysis back to the work item when done |
+| **Generates summary** | Produces structured root cause analysis for user to copy into the work item |
 
 ### 2. Live Quorum Metadata Lookup
 
@@ -197,7 +197,7 @@ Phase 3: Hypothesis
 Phase 4: Fix
   → Root cause: Batch job configuration had stale cycle ID after DST change
   → Fix: Update batch parameter configuration
-  → Documents root cause in WI #54321 with full trace
+  → Outputs structured root cause summary for user to add to WI #54321
 ```
 
 ### Example 2: "The dropdown on the nomination screen is missing a TOS code"
